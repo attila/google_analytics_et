@@ -1,1 +1,4 @@
 name = Google Analytics Event Tracking
+description = "Integrates with the Google Analytics module to provide enhanced event tracking."
+core = 7.x
+dependencies[] = google_analytics
