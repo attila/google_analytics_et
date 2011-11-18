@@ -30,3 +30,22 @@ Google method
 			An integer that you can use to provide numerical data about the user event.
 	• non-interaction (optional)
 			A boolean that when set to true, indicates that the event hit will not be used in bounce-rate calculation.
+			
+Usage
+  Create an array of arrays with the format 
+		$selectors = array(
+			array(
+				'selector' => 'String',
+				'category' => 'String',
+				'action' => 'String',
+				'label' => 'String',
+				'value' => integer,
+				'noninteraction' => boolean,
+			),
+		);
+	Each of the elements in the inner array are values that will go into the corresponding parameter of the 
+	google analytics push call.
+	
+	Once you have created this array you can save it with a call to 
+	google_analytics_event_tracking_set_selectors($selectors) this function will serialize and save the array
+	in the drupal variable table 
