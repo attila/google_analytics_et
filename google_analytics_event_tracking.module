@@ -1,2 +1,36 @@
 <?php
 
+/**
+ * Implementation of hook_init
+ */
+function google_analytics_event_tracking_init() {
+}
+
+function google_analytics_event_tracking_page_alter(&$page) {
+	require_once(drupal_get_path('module', 'googleanalytics') .'/googleanalytics.module');
+	
+	$default_selectors = array(
+		array(
+			'selector' => 'p',
+			'category' => 'String',
+			'action' => 'String',
+			'label' => 'String',
+			'value' => 999,
+			'noninteraction' => true,
+		),
+	);
+
+	$js = array(
+		'google_analytics_event_tracking_settings' => array(
+			'selectors' => unserialize(variable_get('gaet_selectors', serialize($default_selectors))),
+		),
+	);
+
+	drupal_add_js($js, 'setting');
+	drupal_add_js(drupal_get_path('module', 'google_analytics_event_tracking') . '/js/gaet.js');	
+}
+
+function set_event_tracking_selectors($selectors) {
+	
+	vaiable_set(serialize($selectors));
+}
