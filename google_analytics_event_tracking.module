@@ -89,3 +89,10 @@ function google_analytics_event_tracking_set_selectors($selectors) {
 	vaiable_set('gaet_selectors', serialize($selectors));
 	return TRUE;
 }
+
+/**
+ * Implementation of hook_page_alter
+ */
+function google_analytics_event_tracking_uninstall() {
+	variable_del('gaet_selectors');
+}
