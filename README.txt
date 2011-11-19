@@ -44,7 +44,21 @@ Usage
 			),
 		);
 	Each of the elements in the inner array are values that will go into the corresponding parameter of the 
-	google analytics push call.
+	google analytics push call. On the category, action, and label keys the value could be set to !text in 
+	order to utilize the .text() method for the value: for instance, if one where to use !text as the value
+	for the label on a call that used '#main-menu li a' for the selector --the corresponding label for the 
+	value sent to google would be the .text() within the a tag; most likely this would be the title of the
+	destination that the link was sending the user to: 'Home' or 'Blog'
+	Below is an example of exactly that:
+	
+	array(
+		'selector' => '#main-menu li a',
+		'category' => 'main navigation',
+		'action' => 'click',
+		'label' => '!text',
+		'value' => 0,
+		'noninteraction' => true,
+	),
 	
 	Once you have created this array you can save it with a call to 
 	google_analytics_event_tracking_set_selectors($selectors) this function will serialize and save the array
