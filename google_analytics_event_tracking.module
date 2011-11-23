@@ -4,14 +4,15 @@
  * Google Analytics Event Tracking Module.
  *
  * Provides an extention to the google analytics module. Creates an interfacce
- * for reusable event tracking through the google analytics event tracking system.
+ * for reusable event tracking through the google analytics event tracking 
+ * system.
  */
 
 /**
  * Implements hook_page_alter().
  */
 function google_analytics_event_tracking_page_alter(&$page) {
-  require_once(drupal_get_path('module', 'googleanalytics') . '/googleanalytics.module');
+  include_once drupal_get_path('module', 'googleanalytics') . '/googleanalytics.module';
   global $user;
 
   $id = variable_get('googleanalytics_account', '');
@@ -64,29 +65,30 @@ function google_analytics_event_tracking_page_alter(&$page) {
   }
 }
 
-
 /**
  * Set the selector variable
  *
- * This function is intended to be used by glue code or features to set the event tracking without the
- * need of a complicated UI
+ * This function is intended to be used by glue code or features to set the 
+ * event tracking without the need of a complicated UI
  *
  * @param $selectors
- * The selectors array, this is a multidementional indexed array. Each element in the array is an array with
- * the following structure.
- *   array(
- *    'selector' => (String)'p',
- *    'category' => 'String',
- *    'action' => 'String',
- *    'label' => 'String',
- *    'value' => Integer,
- *    'noninteraction' => Boolean,
- *  ),
- * Read the README.txt file or visit http://code.google.com/apis/analytics/docs/tracking/eventTrackerGuide.html
- * for futher explanation.
+ *   The selectors array, this is a multidementional indexed array. Each 
+ *   element in the array is an array with
+ *   the following structure.
+ *     array(
+ *      'selector' => (String)'p',
+ *      'category' => 'String',
+ *      'action' => 'String',
+ *      'label' => 'String',
+ *      'value' => Integer,
+ *      'noninteraction' => Boolean,
+ *    ),
+ *   Read the README.txt file or visit 
+ *   http://code.google.com/apis/analytics/docs/tracking/eventTrackerGuide.html
+ *   for futher explanation.
  *
  * @return
- * TRUE if variable_set is called, FALSE if an array is not passed
+ *   TRUE if variable_set is called, FALSE if an array is not passed
  */
 function google_analytics_event_tracking_set_selectors($selectors) {
   if (!is_array($selectors)) {
