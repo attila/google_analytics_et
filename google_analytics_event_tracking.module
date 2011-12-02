@@ -4,7 +4,7 @@
  * Google Analytics Event Tracking Module.
  *
  * Provides an extention to the google analytics module. Creates an interfacce
- * for reusable event tracking through the google analytics event tracking 
+ * for reusable event tracking through the google analytics event tracking
  * system.
  */
 
@@ -68,11 +68,11 @@ function google_analytics_event_tracking_page_alter(&$page) {
 /**
  * Set the selector variable
  *
- * This function is intended to be used by glue code or features to set the 
+ * This function is intended to be used by glue code or features to set the
  * event tracking without the need of a complicated UI
  *
  * @param $selectors
- *   The selectors array, this is a multidementional indexed array. Each 
+ *   The selectors array, this is a multidementional indexed array. Each
  *   element in the array is an array with
  *   the following structure.
  *     array(
@@ -83,7 +83,7 @@ function google_analytics_event_tracking_page_alter(&$page) {
  *      'value' => Integer,
  *      'noninteraction' => Boolean,
  *    ),
- *   Read the README.txt file or visit 
+ *   Read the README.txt file or visit
  *   http://code.google.com/apis/analytics/docs/tracking/eventTrackerGuide.html
  *   for futher explanation.
  *
