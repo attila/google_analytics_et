@@ -12,7 +12,6 @@
  * Implements hook_page_alter().
  */
 function google_analytics_event_tracking_page_alter(&$page) {
-  include_once drupal_get_path('module', 'googleanalytics') . '/googleanalytics.module';
   global $user;
 
   $id = variable_get('googleanalytics_account', '');
@@ -49,11 +48,19 @@ function google_analytics_event_tracking_page_alter(&$page) {
       'value' => 0,
       'noninteraction' => TRUE,
     ),
+      array(
+        'selector' => 'p',
+        'category' => 'Paragraph',
+        'action' => 'click',
+        'label' => 'content',
+        'value' => 0,
+        'noninteraction' => TRUE,
+      ),
   );
 
   $js = array(
-    'google_analytics_event_tracking_settings' => array(
-      'selectors' => unserialize(variable_get('gaet_selectors', serialize($default_selectors))),
+    'googleAnalyticsETSettings' => array(
+      'selectors' => variable_get('gaet_selectors', $default_selectors),
     ),
   );
 
@@ -94,7 +101,7 @@ function google_analytics_event_tracking_set_selectors($selectors) {
   if (!is_array($selectors)) {
     return FALSE;
   }
-  vaiable_set('gaet_selectors', serialize($selectors));
+  vaiable_set('gaet_selectors', $selectors);
   return TRUE;
 }
 
