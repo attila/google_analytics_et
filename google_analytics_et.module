@@ -11,7 +11,7 @@
 /**
  * Implements hook_page_alter().
  */
-function google_analytics_event_tracking_page_alter(&$page) {
+function google_analytics_et_page_alter(&$page) {
   global $user;
 
   $id = variable_get('googleanalytics_account', '');
@@ -60,7 +60,7 @@ function google_analytics_event_tracking_page_alter(&$page) {
 
   $js = array(
     'googleAnalyticsETSettings' => array(
-      'selectors' => variable_get('gaet_selectors', $default_selectors),
+      'selectors' => variable_get('google_analytics_et_selectors', $default_selectors),
     ),
   );
 
@@ -68,7 +68,7 @@ function google_analytics_event_tracking_page_alter(&$page) {
     // Get the page scope setting from googleanalytics:
     $scope = variable_get('googleanalytics_js_scope', 'header');
     drupal_add_js($js, 'setting');
-    drupal_add_js(drupal_get_path('module', 'google_analytics_event_tracking') . '/js/gaet.js', array('scope' => $scope));
+    dpm(drupal_add_js(drupal_get_path('module', 'google_analytics_et') . '/js/google_analytics_et.js', array('scope' => $scope)));
   }
 }
 
@@ -97,17 +97,17 @@ function google_analytics_event_tracking_page_alter(&$page) {
  * @return
  *   TRUE if variable_set is called, FALSE if an array is not passed
  */
-function google_analytics_event_tracking_set_selectors($selectors) {
+function google_analytics_et_set_selectors($selectors) {
   if (!is_array($selectors)) {
     return FALSE;
   }
-  vaiable_set('gaet_selectors', $selectors);
+  vaiable_set('google_analytics_et_selectors', $selectors);
   return TRUE;
 }
 
 /**
  * Implements hook_uninstall().
  */
-function google_analytics_event_tracking_uninstall() {
-  variable_del('gaet_selectors');
+function google_analytics_et_uninstall() {
+  variable_del('google_analytics_et_selectors');
 }
