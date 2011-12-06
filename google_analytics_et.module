@@ -68,7 +68,6 @@ function google_analytics_et_page_alter(&$page) {
     // Get the page scope setting from googleanalytics:
     $scope = variable_get('googleanalytics_js_scope', 'header');
     drupal_add_js($js, 'setting');
-    dpm(drupal_add_js(drupal_get_path('module', 'google_analytics_et') . '/js/google_analytics_et.js', array('scope' => $scope)));
   }
 }
 
