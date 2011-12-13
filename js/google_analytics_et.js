@@ -64,3 +64,4 @@ function trackEvent($obj, category, action, opt_label, opt_value, opt_noninterac
 function debugEvent($obj, category, action, opt_label, opt_value, opt_noninteraction) {
   alert(category + ' ' + action  + ' ' + opt_label + ' ' + opt_value);
 }
+
