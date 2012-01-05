@@ -3,10 +3,16 @@
  * @file
  * Google Analytics Event Tracking Module.
  *
- * Provides an extention to the google analytics module. Creates an interfacce
- * for reusable event tracking through the google analytics event tracking
- * system.
+ * Provides an extention to the google analytics module. Creates an
+ * interfacce for reusable event tracking through the google analytics
+ * event tracking system.
  */
+
+define('GAET_PATH', drupal_get_path('module', 'google_analytics_et'));
+define('GAET_STATUS_TRUE', 1);
+define('GAET_STATUS_FALSE', 0);
+
+require_once DRUPAL_ROOT . '/' . GAET_PATH . '/google_analytics_et_api.inc';
 
 /**
  * Implements hook_page_alter().
@@ -23,44 +29,22 @@ function google_analytics_et_page_alter(&$page) {
     '404 Not Found',
   );
 
-  $default_selectors = array(
-    array(
-      'selector' => '#main-menu li a',
-      'category' => 'main navigation',
-      'action' => 'click',
-      'label' => '!text',
-      'value' => 0,
-      'noninteraction' => TRUE,
-    ),
-    array(
-      'selector' => 'a#logo',
-      'category' => 'Home Link',
-      'action' => 'click',
-      'label' => 'Logo',
-      'value' => 0,
-      'noninteraction' => TRUE,
-    ),
-    array(
-      'selector' => 'div#site-name a[rel="home"]',
-      'category' => 'Home Link',
-      'action' => 'click',
-      'label' => 'Site Name',
-      'value' => 0,
-      'noninteraction' => TRUE,
-    ),
-      array(
-        'selector' => 'p',
-        'category' => 'Paragraph',
-        'action' => 'click',
-        'label' => 'content',
-        'value' => 0,
-        'noninteraction' => TRUE,
-      ),
-  );
+  // get all selectors defined by google_analytics_et_api hook
+  $selectors = module_invoke_all('api');
+
+  // if the override selectors toggle is TRUE then only load the selectors
+  // from the variable table.
+  $override_hooked_selectors = variable_get('google_analytics_et_selectors_override', FALSE);
+  if ($override_hooked_selectors) {
+    $selectors = variable_get('google_analytics_et_selectors', '');
+  }
+
+  // Sanitize event tracking input to limit the threat of xss
+  _google_analytics_et_sanitize_event_trackers($selectors);
 
   $js = array(
     'googleAnalyticsETSettings' => array(
-      'selectors' => variable_get('google_analytics_et_selectors', $default_selectors),
+      'selectors' => variable_get('google_analytics_et_selectors', $selectors),
     ),
   );
 
@@ -68,7 +52,11 @@ function google_analytics_et_page_alter(&$page) {
     // Get the page scope setting from googleanalytics:
     $scope = variable_get('googleanalytics_js_scope', 'header');
     drupal_add_js($js, 'setting');
+    drupal_add_js(drupal_get_path('module', 'google_analytics_et') . '/js/google_analytics_et.js', array('scope' => $scope));
   }
+
+  // @DEBUG
+  gaet_debug();
 }
 
 /**
@@ -93,7 +81,7 @@ function google_analytics_et_page_alter(&$page) {
  *   http://code.google.com/apis/analytics/docs/tracking/eventTrackerGuide.html
  *   for futher explanation.
  *
- * @return
+ * @return bool
  *   TRUE if variable_set is called, FALSE if an array is not passed
  */
 function google_analytics_et_set_selectors($selectors) {
@@ -105,8 +93,122 @@ function google_analytics_et_set_selectors($selectors) {
 }
 
 /**
- * Implements hook_uninstall().
+ * Add a single selector to the list of selectors.
  */
-function google_analytics_et_uninstall() {
-  variable_del('google_analytics_et_selectors');
+function google_analytics_et_add_event_tracker($selector_array) {
+  //$selector, $category, $action, $label, $value, $noninteraction
+
+  // get whole list of event trackers
+  $event_trackers = google_analytics_et_get_event_trackers();
+
+  // append this event tracker to the end of the list
+  $event_trackers[] = $selector_array;
+
+  // save list of event trackers.
+  variable_set('google_analytics_et_selectors', $event_trackers);
+}
+
+/**
+ * Remove a single selector from the list of events being tracked.
+ */
+function google_analytics_et_remove_event_tracker($selector) {
+  // get whole list of event trackers
+  $event_trackers = google_analytics_et_get_event_trackers();
+  $new_event_trackers = array();
+
+  // go through all events and copy all that do not match into the new array
+  if (is_array($event_trackers)) {
+    foreach ($event_trackers as $key => $value) {
+      if ($event_trackers[$key]['selector'] != $selector) {
+        $new_event_trackers[] = $event_trackers[$key];
+      }
+
+    }
+  }
+
+  // save list of event trackers.
+  variable_set('google_analytics_et_selectors', $new_event_trackers);
+}
+
+/**
+ * Override the hooked event tracking. Do not load hooks.
+ */
+function google_analytics_et_override_event_tracking($status = NULL) {
+  if ($status == NULL) {
+    $new_status = (variable_get('google_analytics_et_selectors_override', NULL)) ? FALSE : TRUE;
+    variable_set('google_analytics_et_selectors_override', $new_status);
+  }
+  elseif (_google_analytics_et_override_event_tracking_validate($status)) {
+    variable_set('google_analytics_et_selectors_override', $status);
+  }
+}
+
+/**
+ * Validates the input of the override event input function
+ */
+function _google_analytics_et_override_event_tracking_validate($status) {
+  if ($status == TRUE || $status == FALSE) {
+    return TRUE;
+  }
+  else {
+    return FALSE;
+  }
+}
+
+/**
+ * Sanitizes event tracking data that is being put into javascript.
+ */
+function _google_analytics_et_sanitize_event_trackers($selectors) {
+  $sanitized_selectors = array();
+
+  if (is_array($selectors)) {
+    foreach ($selectors as $selector) {
+      foreach ($selector as $s) {
+        $s = filter_xss($s);
+      }
+
+      $sanitzed_selectors[] = $selector;
+    }
+  }
+
+  return $sanitized_selectors;
+}
+
+/**
+ * Get the event tracking override status.
+ */
+function google_analytics_et_get_event_trackering_override_status() {
+  $status = variable_get('google_analytics_et_selectors_override', GAET_STATUS_FALSE);
+
+  $status = ($status) ? GAET_STATUS_TRUE : GAET_STATUS_FALSE;
+
+  return $status;
+}
+
+/**
+ * Get the event trackers.
+ */
+function google_analytics_et_get_event_trackers() {
+  $et = array();
+
+  $et = variable_get('google_analytics_et_selectors', $et);
+
+  return $et;
+}
+
+function gaet_debug() {
+  // dpm(google_analytics_et_get_event_trackering_override_status());
+  $array = array(
+    'selector' => 'selector',
+    'category' => 'category',
+    'action' => 'action',
+    'label' => 'label',
+    'value' => 0,
+    'noninteraction' => FALSE,
+  );
+
+  //google_analytics_et_add_event_tracker($array);
+  $selectors = module_invoke_all('api');
+
+  //dpm($selectors);
 }

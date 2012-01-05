@@ -1,0 +1,6 @@
+name = Google Analytics Event Tracking Example
+description = "An extremely simple example to demonstraight how to integrate into the Google Analytics Event Tranking Module's API'."
+core = 7.x
+package = Statistics
+dependencies[] = googleanalytics
+dependencies[] = google_analytics_et

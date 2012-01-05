@@ -54,8 +54,13 @@ function trackEvent($obj, category, action, opt_label, opt_value, opt_noninterac
   category = category == '!text' ? String($obj.text()) : String(category);
   action = action == '!text' ? String($obj.text()) : String(action);
   opt_label = opt_label == '!text' ? String($obj.text()) : String(opt_label);
-
-  _gaq.push(['_trackEvent', String(category), String(action), String(opt_label), Number(opt_value), Boolean(opt_noninteraction)]);
+  
+  if(opt_label == '!test') {
+    debugEvent($obj, category, action, opt_label, opt_value, opt_noninteraction);
+  }
+  else {
+    _gaq.push(['_trackEvent', String(category), String(action), String(opt_label), Number(opt_value), Boolean(opt_noninteraction)]);
+  }
 }
 
 /**
@@ -64,3 +69,4 @@ function trackEvent($obj, category, action, opt_label, opt_value, opt_noninterac
 function debugEvent($obj, category, action, opt_label, opt_value, opt_noninteraction) {
   alert(category + ' ' + action  + ' ' + opt_label + ' ' + opt_value);
 }
+
