@@ -12,13 +12,13 @@
 function google_analytics_et_admin_drush_help($section) {
   switch ($section) {
     case 'drush:gaet-add-et':
-      return dt("... brief help summary goes here ...");
+      return dt("Add an event tracker to a css selector.");
     case 'drush:gaet-delete-et':
-      return dt("... brief help summary goes here ...");
+      return dt("delete all event trackers attched to specified css selector.");
     case 'drush:gaet-override-et':
-      return dt("bla bla bla");
+      return dt("Override all event trackers defined in code. This turns off the event tracking defined by all modules.");
     case 'drush:gaet-get-override-status':
-      return dt("bla bla bla");
+      return dt("");
   }
 }
 
