@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Google analytics event tracking module README:
 
 Purpose
@@ -75,3 +76,6 @@ Usage
 	this function will serialize and save the array in the drupal
 	variable table.
 
+=======
+See major version branches.
+>>>>>>> origin
