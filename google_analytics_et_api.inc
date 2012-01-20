@@ -16,7 +16,7 @@
  * @ingroup google_analytics_et_api_hooks
  */
 function google_analytics_et_api() {
-  // loads the user created selectors from the variable table.
+  // Loads the user created selectors from the variable table.
   return variable_get('google_analytics_et_selectors', array());
 }
 

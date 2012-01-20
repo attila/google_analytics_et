@@ -7,7 +7,7 @@
  */
 
 /**
- * Implementation of hook_drush_help().
+ * Implements hook_drush_help().
  */
 function google_analytics_et_admin_drush_help($section) {
   switch ($section) {
@@ -23,7 +23,7 @@ function google_analytics_et_admin_drush_help($section) {
 }
 
 /**
- * Implementation of hook_drush_command().
+ * Implements hook_drush_command().
  */
 function google_analytics_et_admin_drush_command() {
   $items = array();
@@ -75,7 +75,7 @@ function google_analytics_et_admin_drush_command() {
   return $items;
 }
 
-/** 
+/**
  * Drush command callback for gaet-add-et.
  *
  * Adds an event to be tracked by a click event on the given CSS selector.
@@ -89,14 +89,14 @@ function google_analytics_et_admin_drush_command() {
  *   A string that is uniquely paired with each category, and commonly used
  *   to define the type of user interaction for the web object.
  * @param string $label
- *   (optional) An optional string to provide additional dimensions to the 
+ *   (optional) An optional string to provide additional dimensions to the
  *   event data.
  * @param int $value
- *   (optional) An integer that you can use to provide numerical data about the user
- *   event.
+ *   (optional) An integer that you can use to provide numerical data about
+ *   the user event.
  * @param string|bool $nonineration
- *   (optional) A boolean that when set to true, indicates that the event hit will not
- *   be used in bounce-rate calculation
+ *   (optional) A boolean that when set to true, indicates that the event
+ *   hit will not be used in bounce-rate calculation
  */
 function drush_google_analytics_et_admin_gaet_add_et($selector, $category, $action, $label = '', $value = 0, $nonineration = TRUE) {
   $selector_array = array(
@@ -129,7 +129,7 @@ function drush_google_analytics_et_admin_gaet_delete_et($selector) {
   drush_print(dt("Done!"));
 }
 
-/** 
+/**
  * Validates the user input.
  *
  * Doesn't do any xss filtering or detection, only checks to see if the input
