@@ -7,7 +7,7 @@
  */
 
 /**
- * Implements some drush hook.
+ * Implementation of hook_drush_help().
  */
 function google_analytics_et_admin_drush_help($section) {
   switch ($section) {
@@ -18,12 +18,12 @@ function google_analytics_et_admin_drush_help($section) {
     case 'drush:gaet-override-et':
       return dt("Override all event trackers defined in code. This turns off the event tracking defined by all modules.");
     case 'drush:gaet-get-override-status':
-      return dt("");
+      return dt("Checks wither or not the hook google_analytics_et_api is being overridden.");
   }
 }
 
 /**
- * Implements some drush hook.
+ * Implementation of hook_drush_command().
  */
 function google_analytics_et_admin_drush_command() {
   $items = array();
@@ -76,7 +76,27 @@ function google_analytics_et_admin_drush_command() {
 }
 
 /** 
- * 
+ * Drush command callback for gaet-add-et.
+ *
+ * Adds an event to be tracked by a click event on the given CSS selector.
+ *
+ * @param string $selector
+ *   The CSS string that defines the CSS selector of the elements that will
+ *   respond to the click event.
+ * @param string $category
+ *   The name you supply for the group of objects you want to track.
+ * @param string $action
+ *   A string that is uniquely paired with each category, and commonly used
+ *   to define the type of user interaction for the web object.
+ * @param string $label
+ *   (optional) An optional string to provide additional dimensions to the 
+ *   event data.
+ * @param int $value
+ *   (optional) An integer that you can use to provide numerical data about the user
+ *   event.
+ * @param string|bool $nonineration
+ *   (optional) A boolean that when set to true, indicates that the event hit will not
+ *   be used in bounce-rate calculation
  */
 function drush_google_analytics_et_admin_gaet_add_et($selector, $category, $action, $label = '', $value = 0, $nonineration = TRUE) {
   $selector_array = array(
@@ -100,8 +120,8 @@ function drush_google_analytics_et_admin_gaet_add_et($selector, $category, $acti
   }
 }
 
-/** 
- * 
+/**
+ * Drush command callback for gaet-del-et
  */
 function drush_google_analytics_et_admin_gaet_delete_et($selector) {
   google_analytics_et_remove_event_tracker($selector);

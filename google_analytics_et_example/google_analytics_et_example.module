@@ -14,6 +14,9 @@ function google_analytics_et_example_api() {
   return _google_analytics_et_example_set_selectors_array();
 }
 
+/**
+ * Internal function returns the example selectors array.
+ */
 function _google_analytics_et_example_set_selectors_array() {
   $selectors = array();
 

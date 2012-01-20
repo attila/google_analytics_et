@@ -65,7 +65,7 @@ function google_analytics_et_page_alter(&$page) {
  * This function is intended to be used by glue code or features to set the
  * event tracking without the need of a complicated UI
  *
- * @param $selectors
+ * @param array $selectors
  *   The selectors array, this is a multidementional indexed array. Each
  *   element in the array is an array with
  *   the following structure.
@@ -96,7 +96,7 @@ function google_analytics_et_set_selectors($selectors) {
  * Add a single selector to the list of selectors.
  */
 function google_analytics_et_add_event_tracker($selector_array) {
-  //$selector, $category, $action, $label, $value, $noninteraction
+  // $selector, $category, $action, $label, $value, $noninteraction
 
   // get whole list of event trackers
   $event_trackers = google_analytics_et_get_event_trackers();
@@ -196,19 +196,3 @@ function google_analytics_et_get_event_trackers() {
   return $et;
 }
 
-function gaet_debug() {
-  // dpm(google_analytics_et_get_event_trackering_override_status());
-  $array = array(
-    'selector' => 'selector',
-    'category' => 'category',
-    'action' => 'action',
-    'label' => 'label',
-    'value' => 0,
-    'noninteraction' => FALSE,
-  );
-
-  //google_analytics_et_add_event_tracker($array);
-  $selectors = module_invoke_all('api');
-
-  //dpm($selectors);
-}
