@@ -30,7 +30,7 @@ function google_analytics_et_page_alter(&$page) {
   );
 
   // Get all selectors defined by google_analytics_et_api hook.
-  $selectors = module_invoke_all('api');
+  $selectors = module_invoke_all('google_analytics_et_api');
 
   // If the override selectors toggle is TRUE then only load the selectors
   // from the variable table.
@@ -44,7 +44,7 @@ function google_analytics_et_page_alter(&$page) {
 
   $js = array(
     'googleAnalyticsETSettings' => array(
-      'selectors' => variable_get('google_analytics_et_selectors', $selectors),
+      'selectors' => $selectors,
     ),
   );
 

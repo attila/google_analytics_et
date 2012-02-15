@@ -1,0 +1,58 @@
+diff --git a/google_analytics_et.module b/google_analytics_et.module
+index 5e7520b..9888a62 100644
+--- a/google_analytics_et.module
++++ b/google_analytics_et.module
+@@ -30,7 +30,7 @@ function google_analytics_et_page_alter(&$page) {
+   );
+ 
+   // Get all selectors defined by google_analytics_et_api hook.
+-  $selectors = module_invoke_all('api');
++  $selectors = module_invoke_all('google_analytics_et_api');
+ 
+   // If the override selectors toggle is TRUE then only load the selectors
+   // from the variable table.
+@@ -44,7 +44,7 @@ function google_analytics_et_page_alter(&$page) {
+ 
+   $js = array(
+     'googleAnalyticsETSettings' => array(
+-      'selectors' => variable_get('google_analytics_et_selectors', $selectors),
++      'selectors' => $selectors,
+     ),
+   );
+ 
+diff --git a/google_analytics_et_example/google_analytics_et_example.module b/google_analytics_et_example/google_analytics_et_example.module
+index 9b7abc6..024a879 100644
+--- a/google_analytics_et_example/google_analytics_et_example.module
++++ b/google_analytics_et_example/google_analytics_et_example.module
+@@ -10,7 +10,7 @@
+ /**
+  * Implements google_analytics_et_api
+  */
+-function google_analytics_et_example_api() {
++function google_analytics_et_example_google_analytics_et_api() {
+   return _google_analytics_et_example_set_selectors_array();
+ }
+ 
+diff --git a/js/google_analytics_et.js b/js/google_analytics_et.js
+index 3cfe246..6f3c16d 100644
+--- a/js/google_analytics_et.js
++++ b/js/google_analytics_et.js
+@@ -51,9 +51,15 @@ Drupal.behaviors.googleAnalyticsET = {
+  *   be used in bounce-rate calculation.
+  */
+ function trackEvent($obj, category, action, opt_label, opt_value, opt_noninteraction) {
+-  category = category == '!text' ? String($obj.text()) : String(category);
+-  action = action == '!text' ? String($obj.text()) : String(action);
+-  opt_label = opt_label == '!text' ? String($obj.text()) : String(opt_label);
++  var href = $obj.attr('href') == undefined ? false : String($obj.attr('href'));
++  
++  category = category == '!text' ? String($obj.text()) : (category == '!href' ? href : (category == '!current_page' ? String(window.location.href) : String(category)));
++  action = action == '!text' ? String($obj.text()) : (action == '!href' ? href : (action == '!current_page' ? String(window.location.href) : String(action)));
++  opt_label = opt_label == '!text' ? String($obj.text()) : (opt_label == '!href' ? href : (opt_label == '!current_page' ? String(window.location.href) : String(opt_label)));
++  
++  if (!category) return;
++  if (!action) return;
++  if (!opt_label) return;
+   
+   if(opt_label == '!test') {
+     debugEvent($obj, category, action, opt_label, opt_value, opt_noninteraction);
