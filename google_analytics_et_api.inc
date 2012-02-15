@@ -19,4 +19,3 @@ function google_analytics_et_api() {
   // Loads the user created selectors from the variable table.
   return variable_get('google_analytics_et_selectors', array());
 }
-

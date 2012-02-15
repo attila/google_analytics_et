@@ -19,4 +19,3 @@ function google_analytics_et_uninstall() {
   variable_del('google_analytics_et_selectors');
   variable_del('google_analytics_et_selectors_override');
 }
-

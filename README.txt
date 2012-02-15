@@ -74,4 +74,3 @@ Usage
 	google_analytics_event_tracking_set_selectors($selectors)
 	this function will serialize and save the array in the drupal
 	variable table.
-

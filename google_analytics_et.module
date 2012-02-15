@@ -190,4 +190,3 @@ function google_analytics_et_get_event_trackers() {
 
   return $et;
 }
-
