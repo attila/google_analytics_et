@@ -26,7 +26,7 @@ Drupal.behaviors.googleAnalyticsET = {
     );
   }
 
-} 
+}
 
 /**
  * trackEvent does the actual call to _gaq.push with the _trackEvent type.
@@ -52,16 +52,15 @@ Drupal.behaviors.googleAnalyticsET = {
  */
 function trackEvent($obj, category, action, opt_label, opt_value, opt_noninteraction) {
   var href = $obj.attr('href') == undefined ? false : String($obj.attr('href'));
-  
+
   category = category == '!text' ? String($obj.text()) : (category == '!href' ? href : (category == '!current_page' ? String(window.location.href) : String(category)));
   action = action == '!text' ? String($obj.text()) : (action == '!href' ? href : (action == '!current_page' ? String(window.location.href) : String(action)));
   opt_label = opt_label == '!text' ? String($obj.text()) : (opt_label == '!href' ? href : (opt_label == '!current_page' ? String(window.location.href) : String(opt_label)));
-  
+
   if (!category) return;
   if (!action) return;
-  if (!opt_label) return;
-  
-  if(opt_label == '!test') {
+
+  if (opt_label == '!test') {
     debugEvent($obj, category, action, opt_label, opt_value, opt_noninteraction);
   }
   else {
