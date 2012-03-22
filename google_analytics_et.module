@@ -34,7 +34,7 @@ function google_analytics_et_page_alter(&$page) {
 
   // If the override selectors toggle is TRUE then only load the selectors
   // from the variable table.
-  $override_hooked_selectors = variable_get('google_analytics_et_selectors_override', FALSE);
+  $override_hooked_selectors = variable_get('google_analytics_et_selectors_override', GAET_STATUS_FALSE);
   if ($override_hooked_selectors) {
     $selectors = variable_get('google_analytics_et_selectors', '');
   }
@@ -130,7 +130,7 @@ function google_analytics_et_remove_event_tracker($selector) {
  */
 function google_analytics_et_override_event_tracking($status = NULL) {
   if ($status == NULL) {
-    $new_status = (variable_get('google_analytics_et_selectors_override', NULL)) ? FALSE : TRUE;
+    $new_status = (variable_get('google_analytics_et_selectors_override', NULL)) ? GAET_STATUS_FALSE : GAET_STATUS_TRUE;
     variable_set('google_analytics_et_selectors_override', $new_status);
   }
   elseif (_google_analytics_et_override_event_tracking_validate($status)) {

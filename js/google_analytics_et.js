@@ -15,11 +15,10 @@ Drupal.behaviors.googleAnalyticsET = {
 
     jQuery.each(s,
       function(i, val) {
-        jQuery(settings.selectors[i].selector).bind('mousedown',
+        jQuery(settings.selectors[i].selector).bind(settings.selectors[i].event,
           function(event) {
             trackEvent(jQuery(this), settings.selectors[i].category, settings.selectors[i].action, settings.selectors[i].label, settings.selectors[i].value, settings.selectors[i].noninteraction)
           }
-
         );
       }
 
