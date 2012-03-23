@@ -152,6 +152,7 @@ function _drush_google_analytics_et_admin_gaet_add_et_input_validation($selector
         }
 
         break;
+
       case 'value':
         if (is_numeric($value)) {
           $validation = TRUE;
@@ -161,6 +162,7 @@ function _drush_google_analytics_et_admin_gaet_add_et_input_validation($selector
         }
 
         break;
+
       case 'noninteraction':
         if (is_bool($value)) {
           $validation = TRUE;
@@ -170,6 +172,7 @@ function _drush_google_analytics_et_admin_gaet_add_et_input_validation($selector
         }
 
         break;
+
     }
   }
 
@@ -207,12 +210,14 @@ function drush_google_analytics_et_admin_gaet_get_override_status() {
  */
 function _google_analytics_et_admin_parse_override_status($status) {
   switch ($status) {
-    case GAET_STATUS_TRUE :
+    case GAET_STATUS_TRUE:
       $output = dt('Google Analytics Event Tracking is Being Overwritten.');
       break;
-    case GAET_STATUS_FALSE :
+
+    case GAET_STATUS_FALSE:
       $output = dt('Google Analytics Event Tracking is Not Being Overritten.');
       break;
+
   }
 
   return $output;

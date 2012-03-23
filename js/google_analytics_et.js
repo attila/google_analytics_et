@@ -56,8 +56,9 @@ function trackEvent($obj, category, action, opt_label, opt_value, opt_noninterac
   action = action == '!text' ? String($obj.text()) : (action == '!href' ? href : (action == '!current_page' ? String(window.location.href) : String(action)));
   opt_label = opt_label == '!text' ? String($obj.text()) : (opt_label == '!href' ? href : (opt_label == '!current_page' ? String(window.location.href) : String(opt_label)));
 
-  if (!category) return;
-  if (!action) return;
+  if (!category || !action) {
+    return;
+  }
 
   if (opt_label == '!test') {
     debugEvent($obj, category, action, opt_label, opt_value, opt_noninteraction);
