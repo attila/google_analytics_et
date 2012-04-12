@@ -43,6 +43,7 @@ Usage
   Create an array of arrays with the format 
 		$selectors = array(
 			array(
+			  'event' => 'String',
 				'selector' => 'String',
 				'category' => 'String',
 				'action' => 'String',

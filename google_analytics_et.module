@@ -8,11 +8,11 @@
  * event tracking system.
  */
 
-define('GAET_PATH', drupal_get_path('module', 'google_analytics_et'));
-define('GAET_STATUS_TRUE', 1);
-define('GAET_STATUS_FALSE', 0);
+define('GOOGLE_ANALYTICS_ET_PATH', drupal_get_path('module', 'google_analytics_et'));
+define('GOOGLE_ANALYTICS_ET_STATUS_TRUE', 1);
+define('GOOGLE_ANALYTICS_ET_STATUS_FALSE', 0);
 
-require_once DRUPAL_ROOT . '/' . GAET_PATH . '/google_analytics_et_api.inc';
+require_once DRUPAL_ROOT . '/' . GOOGLE_ANALYTICS_ET_PATH . '/google_analytics_et_api.inc';
 
 /**
  * Implements hook_page_alter().
@@ -34,7 +34,7 @@ function google_analytics_et_page_alter(&$page) {
 
   // If the override selectors toggle is TRUE then only load the selectors
   // from the variable table.
-  $override_hooked_selectors = variable_get('google_analytics_et_selectors_override', GAET_STATUS_FALSE);
+  $override_hooked_selectors = variable_get('google_analytics_et_selectors_override', GOOGLE_ANALYTICS_ET_STATUS_FALSE);
   if ($override_hooked_selectors) {
     $selectors = variable_get('google_analytics_et_selectors', '');
   }
@@ -130,7 +130,7 @@ function google_analytics_et_remove_event_tracker($selector) {
  */
 function google_analytics_et_override_event_tracking($status = NULL) {
   if ($status == NULL) {
-    $new_status = (variable_get('google_analytics_et_selectors_override', NULL)) ? GAET_STATUS_FALSE : GAET_STATUS_TRUE;
+    $new_status = (variable_get('google_analytics_et_selectors_override', NULL)) ? GOOGLE_ANALYTICS_ET_STATUS_FALSE : GOOGLE_ANALYTICS_ET_STATUS_TRUE;
     variable_set('google_analytics_et_selectors_override', $new_status);
   }
   elseif (_google_analytics_et_override_event_tracking_validate($status)) {
@@ -173,9 +173,9 @@ function _google_analytics_et_sanitize_event_trackers($selectors) {
  * Get the event tracking override status.
  */
 function google_analytics_et_get_event_trackering_override_status() {
-  $status = variable_get('google_analytics_et_selectors_override', GAET_STATUS_FALSE);
+  $status = variable_get('google_analytics_et_selectors_override', GOOGLE_ANALYTICS_ET_STATUS_FALSE);
 
-  $status = ($status) ? GAET_STATUS_TRUE : GAET_STATUS_FALSE;
+  $status = ($status) ? GOOGLE_ANALYTICS_ET_STATUS_TRUE : GOOGLE_ANALYTICS_ET_STATUS_FALSE;
 
   return $status;
 }
