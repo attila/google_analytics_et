@@ -31,6 +31,7 @@ function google_analytics_et_admin_drush_command() {
   $items['gaet-add-et'] = array(
     'description' => "adds an event tracking rule to the list.",
     'arguments' => array(
+      'event' => 'The Javascript event that Google Analytics is supposed to track',
       'selector' => 'The CSS selector to use in the event tracking rule',
       'category' => 'The intended Category that Google is to file this event under.',
       'action' => 'The action the calls this event',
@@ -80,6 +81,8 @@ function google_analytics_et_admin_drush_command() {
  *
  * Adds an event to be tracked by a click event on the given CSS selector.
  *
+ * @param string $event
+ *   The Javascript event that Google Analytics is going to track.
  * @param string $selector
  *   The CSS string that defines the CSS selector of the elements that will
  *   respond to the click event.
@@ -98,8 +101,9 @@ function google_analytics_et_admin_drush_command() {
  *   (optional) A boolean that when set to true, indicates that the event
  *   hit will not be used in bounce-rate calculation
  */
-function drush_google_analytics_et_admin_gaet_add_et($selector, $category, $action, $label = '', $value = 0, $nonineration = TRUE) {
+function drush_google_analytics_et_admin_gaet_add_et($event, $selector, $category, $action, $label = '', $value = 0, $nonineration = TRUE) {
   $selector_array = array(
+    '$event' => $event,
     'selector' => $selector,
     'category' => $category,
     'action' => $action,
@@ -140,6 +144,7 @@ function _drush_google_analytics_et_admin_gaet_add_et_input_validation($selector
 
   foreach ($selector_array as $key => $value) {
     switch ($key) {
+      case 'event' :
       case 'selector':
       case 'category':
       case 'action':
