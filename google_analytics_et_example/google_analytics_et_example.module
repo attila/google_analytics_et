@@ -8,7 +8,7 @@
  */
 
 /**
- * Implements hook_google_analytics_et_api()
+ * Implements hook_google_analytics_et_api().
  */
 function google_analytics_et_example_google_analytics_et_api() {
   return _google_analytics_et_example_set_selectors_array();
