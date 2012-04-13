@@ -38,7 +38,7 @@
  *     - (Bool) - For internal use. Does not effect functionallity. Does
  *       effect statistics.
  *
- * @return
+ * @return array
  *   A multidimentional array in the format:
  *   array(
  *     array(
@@ -51,7 +51,6 @@
  *       'noninteraction' => Bool(TRUE | FALSE),
  *     ),
  *   );
- *
  */
 function google_analytics_et_example_google_analytics_et_api() {
   $selectors = array(

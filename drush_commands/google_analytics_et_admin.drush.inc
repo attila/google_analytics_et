@@ -144,7 +144,7 @@ function _drush_google_analytics_et_admin_gaet_add_et_input_validation($selector
 
   foreach ($selector_array as $key => $value) {
     switch ($key) {
-      case 'event' :
+      case 'event':
       case 'selector':
       case 'category':
       case 'action':
