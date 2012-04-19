@@ -30,7 +30,6 @@ function google_analytics_et_page_alter(&$page) {
   // from the variable table.
   $override_hooked_selectors = variable_get('google_analytics_et_selectors_override', FALSE);
   if ($override_hooked_selectors) {
-    drupal_set_message('override');
     $selectors = variable_get('google_analytics_et_selectors', '');
   }
 
