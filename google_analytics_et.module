@@ -79,7 +79,7 @@ function google_analytics_et_set_selectors($selectors) {
   if (!is_array($selectors)) {
     return FALSE;
   }
-  vaiable_set('google_analytics_et_selectors', $selectors);
+  variable_set('google_analytics_et_selectors', $selectors);
   return TRUE;
 }
 
