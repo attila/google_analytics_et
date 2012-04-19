@@ -8,10 +8,6 @@
  * event tracking system.
  */
 
-define('GOOGLE_ANALYTICS_ET_PATH', drupal_get_path('module', 'google_analytics_et'));
-
-require_once DRUPAL_ROOT . '/' . GOOGLE_ANALYTICS_ET_PATH . '/google_analytics_et_api.inc';
-
 /**
  * Implements hook_page_alter().
  */
