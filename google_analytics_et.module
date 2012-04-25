@@ -51,39 +51,6 @@ function google_analytics_et_page_alter(&$page) {
 }
 
 /**
- * Set the selector variable
- *
- * This function is intended to be used by glue code or features to set the
- * event tracking without the need of a complicated UI
- *
- * @param array $selectors
- *   The selectors array, this is a multidementional indexed array. Each
- *   element in the array is an array with
- *   the following structure.
- *     array(
- *      'selector' => (String)'p',
- *      'category' => 'String',
- *      'action' => 'String',
- *      'label' => 'String',
- *      'value' => Integer,
- *      'noninteraction' => Boolean,
- *    ),
- *   Read the README.txt file or visit
- *   http://code.google.com/apis/analytics/docs/tracking/eventTrackerGuide.html
- *   for futher explanation.
- *
- * @return bool
- *   TRUE if variable_set is called, FALSE if an array is not passed
- */
-function google_analytics_et_set_selectors($selectors) {
-  if (!is_array($selectors)) {
-    return FALSE;
-  }
-  variable_set('google_analytics_et_selectors', $selectors);
-  return TRUE;
-}
-
-/**
  * Add a single selector to the list of selectors.
  */
 function google_analytics_et_add_event_tracker($selector_array) {
@@ -121,6 +88,15 @@ function google_analytics_et_remove_event_tracker($selector) {
 
 /**
  * Override the hooked event tracking. Do not load hooks.
+ *
+ * This function can be used to toggle the override status (by not passing
+ * a value) or this function can be used to set the override status outright
+ * by passing TRUE or FALSE.
+ *
+ * @param bool $status
+ *   This can be left to the default value of NULL if one just wishes to
+ *   toggle the override status. If a valid TRUE or FALSE value is passed then
+ *   the override status is changed to that.
  */
 function google_analytics_et_override_event_tracking($status = NULL) {
   if ($status == NULL) {
@@ -168,8 +144,6 @@ function _google_analytics_et_sanitize_event_trackers($selectors) {
  */
 function google_analytics_et_get_event_trackering_override_status() {
   $status = variable_get('google_analytics_et_selectors_override', FALSE);
-
-  $status = ($status) ? TRUE : FALSE;
 
   return $status;
 }

@@ -185,10 +185,10 @@ function _drush_google_analytics_et_admin_gaet_add_et_input_validation($selector
 }
 
 /**
- * Toggles the override status, TRUE|FALSE as 1|0
+ * Toggles the override status, TRUE|FALSE
  */
 function drush_google_analytics_et_admin_gaet_override_et() {
-  $output = dt("Done!\n");
+  $output = dt("Done!") . "\n";
 
   google_analytics_et_override_event_tracking();
 
@@ -215,11 +215,11 @@ function drush_google_analytics_et_admin_gaet_get_override_status() {
  */
 function _google_analytics_et_admin_parse_override_status($status) {
   switch ($status) {
-    case GAET_STATUS_TRUE:
+    case TRUE:
       $output = dt('Google Analytics Event Tracking is Being Overwritten.');
       break;
 
-    case GAET_STATUS_FALSE:
+    case FALSE:
       $output = dt('Google Analytics Event Tracking is Not Being Overritten.');
       break;
 
