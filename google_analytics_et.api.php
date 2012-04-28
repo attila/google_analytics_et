@@ -52,7 +52,7 @@
  *     ),
  *   );
  */
-function google_analytics_et_example_google_analytics_et_api() {
+function hook_google_analytics_et_example_google_analytics_et_api() {
   $selectors = array(
     array(
       'event' => 'mousedown',

@@ -34,7 +34,7 @@ function google_analytics_et_page_alter(&$page) {
   }
 
   // Sanitize event tracking input to limit the threat of xss.
-  _google_analytics_et_sanitize_event_trackers($selectors);
+  $selectors = _google_analytics_et_sanitize_event_trackers($selectors);
 
   $js = array(
     'googleAnalyticsETSettings' => array(
@@ -132,7 +132,7 @@ function _google_analytics_et_sanitize_event_trackers($selectors) {
         $s = filter_xss($s);
       }
 
-      $sanitzed_selectors[] = $selector;
+      $sanitized_selectors[] = $selector;
     }
   }
 
