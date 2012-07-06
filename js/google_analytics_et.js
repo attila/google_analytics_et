@@ -1,31 +1,27 @@
-Drupal.behaviors.googleAnalyticsET = {
-  attach : function (context) {
-    // make sure that the google analytics event tracking object exists
-    // if not then exit and don't track
-    if(!_gaq){
-      return;
-    }
-
-    var settings = Drupal.settings.googleAnalyticsETSettings;
-
-    var s = new Array();
-    for(var i = 0; i < settings.selectors.length; i++) {
-      s[i] = settings.selectors[i].selector;
-    }
-
-    jQuery.each(s,
-      function(i, val) {
-        jQuery(settings.selectors[i].selector).bind(settings.selectors[i].event,
-          function(event) {
-            trackEvent(jQuery(this), settings.selectors[i].category, settings.selectors[i].action, settings.selectors[i].label, settings.selectors[i].value, settings.selectors[i].noninteraction)
-          }
-        );
-      }
-
-    );
+Drupal.behaviors.googleAnalyticsET = function (context) {
+  // make sure that the google analytics event tracking object exists
+  // if not then exit and don't track
+  if(!_gaq){
+    return;
   }
 
-}
+  var settings = Drupal.settings.googleAnalyticsETSettings;
+
+  var s = new Array();
+  for(var i = 0; i < settings.selectors.length; i++) {
+    s[i] = settings.selectors[i].selector;
+  }
+
+  $.each(s,
+    function(i, val) {
+      $(settings.selectors[i].selector).bind(settings.selectors[i].event,
+        function(event) {
+          trackEvent($(this), settings.selectors[i].category, settings.selectors[i].action, settings.selectors[i].label, settings.selectors[i].value, settings.selectors[i].noninteraction)
+        }
+      );
+    }
+  );
+};
 
 /**
  * trackEvent does the actual call to _gaq.push with the _trackEvent type.

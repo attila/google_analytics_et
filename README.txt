@@ -1,5 +1,7 @@
 Google analytics event tracking module README:
 
+@todo - Update this for Drupal 6 if needed
+
 Purpose
   To provide a user configurable and reusable module for the tracking of
   events with google analytics.
