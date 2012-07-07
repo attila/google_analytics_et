@@ -51,9 +51,9 @@ function _google_analytics_et_example_set_selectors_array() {
     array(
       'event' => 'blur',
       'selector' => '#edit-name',
-      'category' => 'test',
-      'action' => 'click',
-      'label' => '!test',
+      'category' => '[TEST] blurred from the user login username/email input field.',
+      'action' => 'BLUR',
+      'label' => '!test', // !test token causes the the output to be alerted to the screen.
       'value' => 0,
       'noninteraction' => TRUE,
     ),
