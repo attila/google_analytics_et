@@ -24,17 +24,27 @@ function google_analytics_et_page_alter(&$page) {
   );
 
   // Get all selectors defined by google_analytics_et_api hook.
-  $selectors = module_invoke_all('google_analytics_et_api');
+  $selectors = &drupal_static(__FUNCTION__);
+  if(!isset($selectors)) {
+    if($cache = cache_get('google_analytics_et_selectors_cache')) {
+      $selectors = $cache->data;
+    }
+    else {
+      $selectors = module_invoke_all('google_analytics_et_api');
 
-  // If the override selectors toggle is TRUE then only load the selectors
-  // from the variable table.
-  $override_hooked_selectors = variable_get('google_analytics_et_selectors_override', FALSE);
-  if ($override_hooked_selectors) {
-    $selectors = variable_get('google_analytics_et_selectors', '');
+      // If the override selectors toggle is TRUE then only load the selectors
+      // from the variable table.
+      $override_hooked_selectors = variable_get('google_analytics_et_selectors_override', FALSE);
+      if ($override_hooked_selectors) {
+        $selectors = variable_get('google_analytics_et_selectors', '');
+      }
+
+      // Sanitize event tracking input to limit the threat of xss.
+      $selectors = _google_analytics_et_sanitize_event_trackers($selectors);
+
+      cache_set('google_analytics_et_selectors_cache', $selectors, 'cache');
+    }
   }
-
-  // Sanitize event tracking input to limit the threat of xss.
-  $selectors = _google_analytics_et_sanitize_event_trackers($selectors);
 
   $js = array(
     'googleAnalyticsETSettings' => array(
@@ -62,6 +72,9 @@ function google_analytics_et_add_event_tracker($selector_array) {
 
   // Save list of event trackers.
   variable_set('google_analytics_et_selectors', $event_trackers);
+
+  // Clear cache so the changes will be rendered.
+  cache_clear_all('google_analytics_et', 'cache', TRUE);
 }
 
 /**
