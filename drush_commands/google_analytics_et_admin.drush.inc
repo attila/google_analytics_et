@@ -101,15 +101,15 @@ function google_analytics_et_admin_drush_command() {
  *   (optional) A boolean that when set to true, indicates that the event
  *   hit will not be used in bounce-rate calculation
  */
-function drush_google_analytics_et_admin_gaet_add_et($event, $selector, $category, $action, $label = '', $value = 0, $nonineration = TRUE) {
+function drush_google_analytics_et_admin_gaet_add_et($event, $selector, $category, $action, $label = '', $value = 0, $noninteraction = TRUE) {
   $selector_array = array(
-    '$event' => $event,
+    'event' => $event,
     'selector' => $selector,
     'category' => $category,
     'action' => $action,
     'label' => $label,
     'value' => $value,
-    'noninteraction' => $nonineration,
+    'noninteraction' => $noninteraction,
   );
 
   if (_drush_google_analytics_et_admin_gaet_add_et_input_validation($selector_array)) {
@@ -130,7 +130,7 @@ function drush_google_analytics_et_admin_gaet_add_et($event, $selector, $categor
 function drush_google_analytics_et_admin_gaet_delete_et($selector) {
   google_analytics_et_remove_event_tracker($selector);
 
-  drush_print(dt("Done!"));
+  drush_print(dt($selector . " deleted!"));
 }
 
 /**
