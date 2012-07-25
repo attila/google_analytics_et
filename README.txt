@@ -61,8 +61,9 @@ Usage
   the .text() within the a tag; most likely this would be the title of the
   destination that the link was sending the user to: 'Home' or 'Blog'
   Below is an example of exactly that:
-  
+
   array(
+    'event' => 'mousedown',
     'selector' => '#main-menu li a',
     'category' => 'main navigation',
     'action' => 'click',
@@ -70,8 +71,8 @@ Usage
     'value' => 0,
     'noninteraction' => true,
   ),
-  
-  Once you have created this array you can save it with a call to
-  google_analytics_event_tracking_set_selectors($selectors)
-  this function will serialize and save the array in the drupal
-  variable table.
+
+  This array should be returned via an implementation of
+  hook_google_analytics_et_api()
+
+  An example module is supplied in the module Google Analytics ET Example.
