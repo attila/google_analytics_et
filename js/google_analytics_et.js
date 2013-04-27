@@ -72,5 +72,20 @@ function trackEvent($obj, category, action, opt_label, opt_value, opt_noninterac
  * A simple debug function that matches the trackEvent function.
  */
 function debugEvent($obj, category, action, opt_label, opt_value, opt_noninteraction) {
-  alert(category + ' ' + action  + ' ' + opt_label + ' ' + opt_value);
+  // Saftey First, safe use of console in IE.
+  // http://blog.patspam.com/2009/the-curse-of-consolelog
+  if (!("console" in window)) {
+    alert(category + ' ' + action  + ' ' + opt_label + ' ' + opt_value);
+  }
+  else {
+    var trackerObject = {
+        category : category,
+        action : action,
+        opt_label : opt_label,
+        opt_value : opt_value,
+        opt_noninteraction : opt_noninteraction,
+        $object : $obj
+    }
+    console.log(trackerObject);
+  }
 }
