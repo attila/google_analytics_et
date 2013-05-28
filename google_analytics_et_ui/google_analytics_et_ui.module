@@ -1,0 +1,117 @@
+<?php
+
+/**
+ * @file
+ * Adds a user interface to add custom Google Analytics Event trackers.
+ *
+ */
+
+/**
+ * Implementation of hook_permission().
+ */
+function google_analytics_et_ui_permission() {
+  return array(
+    'administer google analytics et' => array(
+      'title' => t('Administer Google Analytics Event Tracking'),
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function google_analytics_et_ui_menu() {
+  return array(
+    'admin/config/system/et' => array(
+      'title' => 'Event Tracking',
+      'description' => 'Configure Google Analytics Event trackers',
+      'access arguments' => array('administer google analytics et'),
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('google_analytics_et_ui_admin'),
+      'file' => 'google_analytics_et_ui.admin.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_theme().
+ */
+function google_analytics_et_ui_theme() {
+  $theme_hooks = array(
+    'google_analytics_et_ui_selectors' => array(
+      'render element' => 'form',
+    ),
+  );
+
+  return $theme_hooks;
+}
+
+/**
+ * Returns HTML for an admin selectors form.
+ *
+ * @param $variables
+ *   An associative array containing:
+ *   - form: A render element representing the form.
+ *
+ * @ingroup themeable
+ */
+function theme_google_analytics_et_ui_selectors($variables) {
+  $form = $variables['form'];
+  $headers = array(t('Enabled'), t('Selector'), t('Event'), t('Category'), t('Action'), t('Label'), t('Value'), t('Non interaction'));
+  $rows = array();
+
+  foreach (element_children($form) as $key) {
+    // Build the table row.
+    $row = array(
+      'no_striping' => TRUE,
+      'data' => array(
+        drupal_render($form[$key]['options']['enabled']),
+        drupal_render($form[$key]['selector']),
+        drupal_render($form[$key]['options']['event']),
+        drupal_render($form[$key]['options']['category']),
+        drupal_render($form[$key]['options']['action']),
+        drupal_render($form[$key]['options']['label']),
+        drupal_render($form[$key]['options']['value']),
+        drupal_render($form[$key]['options']['noninteraction']),
+      ),
+    );
+
+    // Add any additional classes set on the row.
+    if (!empty($form[$key]['#attributes']['class'])) {
+      $row['class'] = array_merge($row['class'], $form[$key]['#attributes']['class']);
+    }
+
+    $rows[] = $row;
+  }
+
+  $output = theme('table', array('header' => $headers, 'rows' => $rows, 'attributes' => array('id' => 'google_analytics_et_ui-selector-table')));
+  $output .= drupal_render_children($form);
+
+  return $output;
+}
+
+/**
+ * Implements hook_google_analytics_et_api().
+ */
+function google_analytics_et_ui_google_analytics_et_api() {
+  $selectors = variable_get('google_analytics_et_ui_selectors', array());
+
+  foreach ($selectors as &$selector) {
+    if ($selector['options']['enabled']) {
+      $new_selector = array(
+        'event' => $selector['options']['event'],
+        'selector' => $selector['selector'],
+        'category' => $selector['options']['category'],
+        'action' => $selector['options']['action'],
+        'label' => $selector['options']['label'],
+        'noninteraction' => $selector['options']['noninteraction'],
+      );
+      if (!empty($selector['options']['value'])) {
+       $new_selector['value'] =  $selector['options']['value'];
+      }
+      $selector = $new_selector;
+    }
+  }
+
+  return $selectors;
+}
