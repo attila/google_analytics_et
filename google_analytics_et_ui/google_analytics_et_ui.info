@@ -1,7 +1,7 @@
 name = Google Analytics Event Tracking UI
-package = "User interface"
 description = "User Interface for Google Analytics Event Tracking"
 core = 7.x
+package = Statistics
 dependencies[] = googleanalytics
 dependencies[] = google_analytics_et
 configure = admin/config/system/et
