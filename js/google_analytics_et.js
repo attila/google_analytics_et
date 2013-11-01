@@ -2,7 +2,7 @@ Drupal.behaviors.googleAnalyticsET = {
   attach : function (context) {
     // make sure that the google analytics event tracking object exists
     // if not then exit and don't track
-    if(!_gaq){
+    if(typeof _gaq == "undefined"){
       return;
     }
 
