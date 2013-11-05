@@ -7,7 +7,11 @@ Drupal.behaviors.googleAnalyticsET = {
     }
 
     var settings = Drupal.settings.googleAnalyticsETSettings;
-
+    var defaultOptions = {
+      label: '',
+      value: 0,
+      noninteraction: false
+    };
     var s = new Array();
     for(var i = 0; i < settings.selectors.length; i++) {
       s[i] = settings.selectors[i].selector;
@@ -17,6 +21,7 @@ Drupal.behaviors.googleAnalyticsET = {
       function(i, val) {
         jQuery(settings.selectors[i].selector).bind(settings.selectors[i].event,
           function(event) {
+            settings.selectors[i] = jQuery.extend(defaultOptions, settings.selectors[i]);
             trackEvent(jQuery(this), settings.selectors[i].category, settings.selectors[i].action, settings.selectors[i].label, settings.selectors[i].value, settings.selectors[i].noninteraction)
           }
         );
