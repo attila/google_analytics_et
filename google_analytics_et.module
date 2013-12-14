@@ -51,7 +51,13 @@ function google_analytics_et_page_alter(&$page) {
     foreach ($selectors as $out_key => $selector){
       if (!empty($selector)) {
         foreach($selector as $key => $value) {
-             $selectors[$out_key][$key] = token_replace($value);
+          switch ($value) {
+            case 'label':
+            case 'category':
+            case 'action':
+              $selectors[$out_key][$key] = token_replace($value);
+              break;
+          }
         }
       }
     }
