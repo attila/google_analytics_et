@@ -37,6 +37,11 @@
  *   noninteraction :
  *     - (Bool) - For internal use. Does not effect functionallity. Does
  *       effect statistics.
+ *   options :
+ *     - (Array) - Options Array holds values for extra options that deal with
+ *       how the event tracking occurs.
+ *       Available options: "track one event"
+ *       Usage: options = array("track on event" => TRUE);
  *
  * @return array
  *   A multidimentional array in the format:
@@ -62,6 +67,7 @@ function hook_google_analytics_et_google_analytics_et_api() {
       'label' => '!text',
       'value' => 0,
       'noninteraction' => TRUE,
+      'options' => array(),
     ),
     array(
       'event' => 'mousedown',
@@ -71,6 +77,9 @@ function hook_google_analytics_et_google_analytics_et_api() {
       'label' => 'Logo',
       'value' => 0,
       'noninteraction' => TRUE,
+      'options' => array(
+        'track only once' => TRUE
+        ),
     ),
     array(
       'event' => 'mousedown',
@@ -80,6 +89,7 @@ function hook_google_analytics_et_google_analytics_et_api() {
       'label' => 'Site Name',
       'value' => 0,
       'noninteraction' => TRUE,
+      'options' => array(),
     ),
     array(
       'event' => 'mouseover',
@@ -89,6 +99,7 @@ function hook_google_analytics_et_google_analytics_et_api() {
       'label' => '!test',
       'value' => 0,
       'noninteraction' => TRUE,
+      'options' => array(),
     ),
   );
 
