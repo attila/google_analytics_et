@@ -52,7 +52,7 @@
  *     ),
  *   );
  */
-function hook_google_analytics_et_example_google_analytics_et_api() {
+function hook_google_analytics_et_google_analytics_et_api() {
   $selectors = array(
     array(
       'event' => 'mousedown',
@@ -93,4 +93,17 @@ function hook_google_analytics_et_example_google_analytics_et_api() {
   );
 
   return $selectors;
+}
+
+/**
+ * Define the settings used in the google analytics event tracker
+ *
+ * @return array settings array.
+ */
+function hook_google_analytics_et_settings_info() {
+  $settings = array();
+
+  $settigns['debug'] = TRUE;
+
+  return $settigns;
 }

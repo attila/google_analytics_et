@@ -7,6 +7,7 @@ Drupal.behaviors.googleAnalyticsET = {
     }
 
     var settings = Drupal.settings.googleAnalyticsETSettings;
+    delete settings.selectors.debug;
     var defaultOptions = {
       label: '',
       value: 0,
@@ -15,10 +16,15 @@ Drupal.behaviors.googleAnalyticsET = {
     var s = new Array();
     for(var i = 0; i < settings.selectors.length; i++) {
       s[i] = settings.selectors[i].selector;
+      console.log(i);
+      console.log(settings.selectors[i].selector)
     }
+    console.log(settings.selectors.length);
+    console.log(s);
 
     jQuery.each(s,
       function(i, val) {
+        console.log(i);
         jQuery(settings.selectors[i].selector).bind(settings.selectors[i].event,
           function(event) {
             settings.selectors[i] = jQuery.extend(defaultOptions, settings.selectors[i]);
@@ -65,7 +71,7 @@ function trackEvent($obj, category, action, opt_label, opt_value, opt_noninterac
     return;
   }
 
-  if (opt_label == '!test') {
+  if (opt_label == '!test' || Drupal.settings.googleAnalyticsETSettings.settings.debug) {
     debugEvent($obj, category, action, opt_label, opt_value, opt_noninteraction);
   }
   else {
