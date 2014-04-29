@@ -16,16 +16,15 @@ Drupal.behaviors.googleAnalyticsET = {
     var s = new Array();
     for(var i = 0; i < settings.selectors.length; i++) {
       s[i] = settings.selectors[i].selector;
+/*
       console.log(i);
       console.log(settings.selectors[i].selector)
+*/
     }
-    console.log(settings.selectors.length);
-    console.log(s);
 
     jQuery.each(s,
       function(i, val) {
-        console.log(i);
-        jQuery(settings.selectors[i].selector).bind(settings.selectors[i].event,
+        jQuery(settings.selectors[i].selector).once('GoogleAnalyticsET').bind(settings.selectors[i].event,
           function(event) {
             settings.selectors[i] = jQuery.extend(defaultOptions, settings.selectors[i]);
             trackEvent(jQuery(this), settings.selectors[i].category, settings.selectors[i].action, settings.selectors[i].label, settings.selectors[i].value, settings.selectors[i].noninteraction)
