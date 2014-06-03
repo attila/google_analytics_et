@@ -2,21 +2,31 @@ Drupal.behaviors.googleAnalyticsET = {
   attach : function (context) {
     // make sure that the google analytics event tracking object exists
     // if not then exit and don't track
-    if(!_gaq){
+    if(typeof _gaq == "undefined"){
       return;
     }
 
     var settings = Drupal.settings.googleAnalyticsETSettings;
-
+    delete settings.selectors.debug;
+    var defaultOptions = {
+      label: '',
+      value: 0,
+      noninteraction: false
+    };
     var s = new Array();
     for(var i = 0; i < settings.selectors.length; i++) {
       s[i] = settings.selectors[i].selector;
+/*
+      console.log(i);
+      console.log(settings.selectors[i].selector)
+*/
     }
 
     jQuery.each(s,
       function(i, val) {
-        jQuery(settings.selectors[i].selector).bind(settings.selectors[i].event,
+        jQuery(settings.selectors[i].selector).once('GoogleAnalyticsET').bind(settings.selectors[i].event,
           function(event) {
+            settings.selectors[i] = jQuery.extend(defaultOptions, settings.selectors[i]);
             trackEvent(jQuery(this), settings.selectors[i].category, settings.selectors[i].action, settings.selectors[i].label, settings.selectors[i].value, settings.selectors[i].noninteraction)
           }
         );
@@ -60,7 +70,7 @@ function trackEvent($obj, category, action, opt_label, opt_value, opt_noninterac
     return;
   }
 
-  if (opt_label == '!test') {
+  if (opt_label == '!test' || Drupal.settings.googleAnalyticsETSettings.settings.debug) {
     debugEvent($obj, category, action, opt_label, opt_value, opt_noninteraction);
   }
   else {
