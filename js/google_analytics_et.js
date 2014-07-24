@@ -1,8 +1,8 @@
 Drupal.behaviors.googleAnalyticsET = {
   attach : function (context) {
-    // make sure that the google analytics event tracking object exists
+    // make sure that the google analytics event tracking object or the universal analytics tracking function exists
     // if not then exit and don't track
-    if(typeof _gaq == "undefined"){
+    if(typeof _gaq == "undefined" && typeof ga == "undefined"){
       return;
     }
 
@@ -73,8 +73,18 @@ function trackEvent($obj, category, action, opt_label, opt_value, opt_noninterac
   if (opt_label == '!test' || Drupal.settings.googleAnalyticsETSettings.settings.debug) {
     debugEvent($obj, category, action, opt_label, opt_value, opt_noninteraction);
   }
-  else {
+  else if( typeof _gaq != 'undefined' ){
     _gaq.push(['_trackEvent', String(category), String(action), String(opt_label), Number(opt_value), Boolean(opt_noninteraction)]);
+  }
+  else {
+    ga('send', {
+      'hitType': 'event',
+      'eventCategory': String(category),
+      'eventAction': String(action),
+      'eventLabel': String(opt_label),
+      'eventValue': Number(opt_value),
+      'nonInteraction': Boolean(opt_noninteraction)
+    });
   }
 }
 
